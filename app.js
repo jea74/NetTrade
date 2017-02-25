@@ -1,17 +1,14 @@
 var express = require('express');
+var exphbs  = require('express-handlebars');
 var path = require('path');
 var app = express();
 
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+app.use(express.static('./assets'))
 
-
-app.use(express.static(path.join(__dirname, '/')));
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html', null, function(error, data) { //getting the file
-        if (error) {
-            res.writeHead(404);
-            res.write("File not found");
-        }
-    });
+  res.render('home');
 });
 
 app.get('/itemdetails', function(req, res){
