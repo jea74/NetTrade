@@ -12,18 +12,19 @@ app.get('/', function(req, res) {
 });
 
 app.get('/itemdetails', function(req, res){
-
+res.render('itemdetails');
 })
 
-app.get('/nettrade_login', function(req, res){
-
+app.get('/login', function(req, res){
+  res.render('login');
 })
 
-app.get('/add_new_product', function(req, res){
-
+app.get('/addnewproduct', function(req, res){
+  res.render('addnewproduct');
 })
 
 app.get('/userprofile', function(req, res){
+  res.render('userprofile');
 
 })
 
