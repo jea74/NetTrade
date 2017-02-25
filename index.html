@@ -28,11 +28,18 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+
+<!--ajax stufF-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/Javascript" src="renderNav.js"></script>
+
+</script>
+
 </head>
 
-<body>
-
-  <!-- Fixed navbar -->
+<body onload=renderNav()>
+    <!-- Fixed navbar -->
+<!--
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
@@ -56,9 +63,11 @@
             <li><a href="../navbar/">Sign In</a></li>
             <li><a href="../navbar/">Sign Up</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </nav>
+-->
+<div id="nav_head"> </div>
 
     <div class="container">
 
