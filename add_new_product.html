@@ -28,6 +28,39 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+ 
+ <script>
+  function addproduct(form)
+{
+	var name =  form.product_name.value;
+	var category = form.categories.value;
+	var product_desc=form.product_description.value;
+	var price=form.price.value;
+	var img= "imageeee";//form.product_image.value;
+	URL="http://localhost:8080/add_new_product?name="+name+"&category="+category+"&product_desc="+product_desc+"&price="+price+"&image="+img;
+	document.getElementById("abcc").innerHTML=URL;
+	$.ajax({
+			type: "GET",
+			url: URL,
+			contentType:"application/json; charset=utf-8",
+			data:"{}",
+			datatype: "html",
+			success: function(msg)
+			{	
+					document.getElementById("afterpostingad").innerHTML="PRODUCT POSTED";
+			},
+			error: function()
+			{
+				alert("Error 404 : Cannot reach server");
+			}
+		});	
+	
+	
+}
+  </script>
+  
 </head>
 
 <body>
@@ -62,18 +95,80 @@
 
 
 
-    <div class="container">
-      <div class="jumbotron">
+   <div class="container">
+      <div class="jumbotron" id="afterpostingad">
         <h1>NetTrade</h1>
         <p>The best place to list items!!!</p>
       </div>
 <div class="row">
 	      <div class="col-sm-12 col-lg-12">
 		      <div class="jumbotron">
-			     <!-- Change the width and height values to suit you best -->
-<div class="typeform-widget" data-url="https://ava48.typeform.com/to/T3QT7W" data-text="code (copy)" style="width:100%;height:500px;"></div>
-<script>(function(){var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';if(!gi.call(d,id)){js=ce.call(d,'script');js.id=id;js.src=b+'widget.js';q=gt.call(d,'script')[0];q.parentNode.insertBefore(js,q)}})()</script>
-<div style="font-family: Sans-Serif;font-size: 12px;color: #999;opacity: 0.5; padding-top: 5px;">Powered by<a href="https://www.typeform.com/examples/?utm_campaign=T3QT7W&amp;utm_source=typeform.com-6878811-Basic&amp;utm_medium=typeform&amp;utm_content=typeform-embedded-poweredbytypeform&amp;utm_term=EN" style="color: #999" target="_blank">Typeform</a></div>
+              <form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Product name</label>
+    <input type="text" class="form-control" id="product_name" placeholder="Product Name">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Product Description</label>
+    <input type="text" class="form-control" id="product_description" placeholder="Describe your product">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Price</label>
+    <input type="number" class="form-control" id="price" placeholder="Enter Price">
+  </div>
+  
+  
+ 
+  <div class="form-group">
+ <label for="exampleInputPassword1">Category</label><br>
+ <select class="selectpicker" id= "categories">
+ <option> default</option>
+  <optgroup label="Electronics">
+    <option value = "Electronics">Cellphone</option>
+    <option value = "Electronics">Desktop/Laptop</option>
+    <option value = "Electronics">Bluetooth & Accessories </option>
+    <option value = "Electronics" > Camera, Photo & Video</option>
+    <option value = "Electronics" > Video Games</option>
+    <option value = "Electronics" > Software</option>
+    <option value = "Electronics" > Printers & ink</option>
+    <option value = "Electronics" > Networking </option>
+    <option value = "Electronics" > Others</option>
+  </optgroup>
+  <optgroup label="Clothing">
+    <option value = "Clothings" >Top</option>
+    <option value = "Clothings" >Botton</option>
+    <option value = "Clothings" > Dress </option>
+    <option value = "Clothings" > Shoes</option>
+    <option value = "Clothings" > Bag </option>
+    <option value = "Clothings" > Jewelry</option>
+    <option value = "Clothings" > Other</option>
+  </optgroup>
+  <optgroup label= "Home" >
+  	<option value = "Home"> Home Deco</option>
+  	<option value = "Home" > Furniture </option>
+  	<option value = "Home" > Kitchen & Dining </option>
+	<option value = "Home" > Bedding & Bath </option>
+   <option value = "Home" > Garden Deco & Tools</option>
+   <option value = "Home" > Appliance </option>
+   <option value = "Home" >Lights & Lamps</option>
+   <option value = "Home" > Other</option>
+    </optgroup >
+    <optgroup label = "Others">
+    	
+    </optgroup>
+</select>
+</div>
+  
+  <div class="form-group">
+    <label for="exampleInputFile">Product Image</label>
+    <input type="file" id="product_image">
+    <p class="help-block">File format : .jpeg, .png</p>
+  </div>
+  <button type="button" class="btn btn-default" onClick="addproduct(this.form)">Submit</button>
+</form>
+              
+              
+       
 		      </div>
 	      </div> 
       </div>
@@ -84,7 +179,7 @@
 	
 	</div>
 
-
+<div id="abcc"></div>
 
 </body>
 </html>
