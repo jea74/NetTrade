@@ -1,8 +1,14 @@
-var http=require('http');
-var $=require('jquery');
 var express = require('express');
 var path = require('path');
+var exphbs  = require('express-handlebars');
 var app = express();
+
+// Handlebar config
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+app.use(express.static('./assets'))
+
+//  MySQL Connection
 var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
@@ -10,6 +16,7 @@ var con = mysql.createConnection({
 	password: 'Root1!',
 	database: 'netTrade',
 });
+
 con.connect(function(err) {
 	if(err) {
 		console.log("Error connecting to database");
@@ -19,21 +26,17 @@ con.connect(function(err) {
 	}
 });
 
-app.use(express.static(path.join(__dirname, '/')));
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html', null, function(error, data) { //getting the file
-        if (error) {
-            res.writeHead(404);
-            res.write("File not found");
-        }
-    });
+  res.render('home');
 });
 
 app.get('/itemdetails', function(req, res){
+  res.render('itemdetails');
 
 })
 
-app.get('/nettrade_login', function(req, res){
+app.get('/login', function(req, res){
+  res.render('login');
 
 })
 
@@ -43,20 +46,20 @@ app.get('/add_new_product', function(req, res){
 	var desc=req.query.product_desc;
 	var product_price=req.query.price;
 	var image=req.query.image;
-var product = { name: product_name, photoURL: image, price: product_price, description: desc, providerID: "FACEBOOK.COM"};
+  var product = { name: product_name, photoURL: image, price: product_price, description: desc, providerID: "FACEBOOK.COM"};
 	console.log(product);
-var query = con.query('insert into productt set ?', product, function(err,rows,fields) {
-if (err)
-console.log('Error during query processing');
-else
-console.log('Here is the result : ', rows);
-});
-res.send('ALL');
- 
+  var query = con.query('insert into productt set ?', product, function(err,rows,fields) {
+  if (err)
+    console.log('Error during query processing');
+  else
+    console.log('Here is the result : ', rows);
+  });
+  res.send('ALL');
+
 })
 
 app.get('/userprofile', function(req, res){
-
+  res.redner('userprofile');
 })
 
 
