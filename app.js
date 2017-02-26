@@ -12,8 +12,8 @@ app.use(express.static('./assets'))
 var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
-	user: 'jea74',
-	password: 'Stp5mp3m!',
+	user: 'root',
+	password: 'root',
 	database: 'netTrade'
 });
 
