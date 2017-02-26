@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `itemtable`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `itemtable` (
   `name` varchar(20) DEFAULT NULL,
+  `category` varchar(20) DEFAULT NULL,
   `photoURL` varchar(1000) DEFAULT NULL,
   `price` float(4,2) DEFAULT NULL,
   `description` text,
@@ -32,7 +33,7 @@ CREATE TABLE `itemtable` (
   PRIMARY KEY (`itemID`),
   KEY `providerID` (`providerID`),
   CONSTRAINT `itemtable_ibfk_1` FOREIGN KEY (`providerID`) REFERENCES `usertable` (`providerID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +42,7 @@ CREATE TABLE `itemtable` (
 
 LOCK TABLES `itemtable` WRITE;
 /*!40000 ALTER TABLE `itemtable` DISABLE KEYS */;
-INSERT INTO `itemtable` VALUES ('Rad Bike','bike.jpeg',30.00,'Bike that is rad','facebook1',1),('Cool Bike','shirt.jpeg',25.00,'Really cool shirt','google1',2),('Great Hat','hat.jpeg',5.00,'Not a great hat by any means','facebook2',3),('Loud Headphones','headphone.jpeg',85.00,'Super loud headphones that will bust your eardrum.','google2',4),('Decent Pants','pants.jpeg',55.00,'Pretty decent pants that have been worn too many times','facebook3',5);
+INSERT INTO `itemtable` VALUES ('Rad Bike','Vehicles','bike.jpeg',30.00,'Bike that is rad','facebook1',1),('Cool Shirt','Clothes','shirt.jpeg',25.00,'Really cool shirt','google1',2),('Great Hat','Clothes','hat.jpeg',5.00,'Not a great hat by any means','facebook2',3),('Loud Headphones','Electronics','headphone.jpeg',85.00,'Super loud headphones that will bust your eardrum.','google2',4),('Decent Pants','Clothes','pants.jpeg',55.00,'Pretty decent pants that have been worn too many times','facebook3',5);
 /*!40000 ALTER TABLE `itemtable` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,4 +83,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-25 20:15:21
+-- Dump completed on 2017-02-25 21:23:46
