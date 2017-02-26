@@ -1,8 +1,10 @@
 var http=require('http');
 var $=require('jquery');
 var express = require('express');
+var exphbs  = require('express-handlebars');
 var path = require('path');
 var app = express();
+<<<<<<< HEAD
 var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
@@ -20,23 +22,26 @@ con.connect(function(err) {
 });
 
 app.use(express.static(path.join(__dirname, '/')));
+=======
+
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+app.use(express.static('./assets'))
+
+>>>>>>> origin/master
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html', null, function(error, data) { //getting the file
-        if (error) {
-            res.writeHead(404);
-            res.write("File not found");
-        }
-    });
+  res.render('home');
 });
 
 app.get('/itemdetails', function(req, res){
-
+res.render('itemdetails');
 })
 
-app.get('/nettrade_login', function(req, res){
-
+app.get('/login', function(req, res){
+  res.render('login');
 })
 
+<<<<<<< HEAD
 app.get('/add_new_product', function(req, res){
 	var category = req.query.category;
 	var product_name= req.query.name;
@@ -53,9 +58,14 @@ console.log('Here is the result : ', rows);
 });
 res.send('ALL');
  
+=======
+app.get('/addnewproduct', function(req, res){
+  res.render('addnewproduct');
+>>>>>>> origin/master
 })
 
 app.get('/userprofile', function(req, res){
+  res.render('userprofile');
 
 })
 
