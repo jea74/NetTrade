@@ -12,9 +12,9 @@ app.use(express.static('./assets'))
 var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
-	user: 'root',
-	password: 'Root1!',
-	database: 'netTrade',
+	user: 'jea74',
+	password: 'Stp5mp3m!',
+	database: 'netTrade'
 });
 
 con.connect(function(err) {
@@ -40,6 +40,10 @@ app.get('/login', function(req, res){
 
 })
 
+app.get('/addproduct',function(req,res){
+	res.render("addnewproduct");
+})
+
 app.get('/add_new_product', function(req, res){
 	var category = req.query.category;
 	var product_name= req.query.name;
@@ -48,9 +52,9 @@ app.get('/add_new_product', function(req, res){
 	var image=req.query.image;
   var product = { name: product_name, photoURL: image, price: product_price, description: desc, providerID: "FACEBOOK.COM"};
 	console.log(product);
-  var query = con.query('insert into productt set ?', product, function(err,rows,fields) {
+  var query = con.query('INSERT INTO productt SET ?', product, function(err,rows,fields) {
   if (err)
-    console.log('Error during query processing');
+    console.log(err);
   else
     console.log('Here is the result : ', rows);
   });
