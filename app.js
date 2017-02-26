@@ -17,6 +17,94 @@ var con = mysql.createConnection({
 	database: 'netTrade'
 });
 
+// PassportJS
+var passport = require('passport');
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.provider + user.id);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+// Adds new user to database if already there does nothing
+function addUser(profile) {
+	var key = profile.provider + profile.id
+	var sql = 'SELECT providerID from usertable WHERE providerID = \'' + key + '\''
+	con.query(sql, function(err,rows,fields) {
+	console.log("Outputing result of sql usertable find",rows);
+	if (err)
+		console.log(err);
+	if (rows.length == 0) {
+		 var value = {providerID : key,
+									displayName : profile.displayName,
+									firstName : profile.name.givenName,
+									lastName : profile.name.familyName,
+									email : "google.com",
+									photoURL : "foo.jpg"}
+		 console.log(key);
+		 con.query('INSERT INTO usertable SET ?',value,function(err,rows,fields) {
+			 if (err)
+				console.log(err)
+			else {
+				console.log("Added new user!!!")
+			 }
+		})
+	}
+	});
+}
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
+passport.use(new GoogleStrategy({
+    clientID: '465541679426-bieul6n1t3nj49t49kkvd0ritujlield.apps.googleusercontent.com',
+    clientSecret: 'A76wPVjerWGfFeRjwvhXzVIG',
+    callbackURL: "http://localhost:8080/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+		addUser(profile);
+    return done(null, profile);
+  }
+));
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+});
+
+FacebookStrategy = require('passport-facebook').Strategy;
+
+passport.use(new FacebookStrategy({
+    clientID: 1156295237830810,
+    clientSecret: '2230c4715ef21d98097f61eba2fe5330',
+    callbackURL: "http://localhost:8080/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+		console.log("Profile",profile);
+		addUser(profile)
+    return done(null, profile);
+  }
+));
+
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+// Facebook will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/login' }));
+
 con.connect(function(err) {
 	if(err) {
 		console.log("Error connecting to database");
@@ -27,6 +115,7 @@ con.connect(function(err) {
 });
 
 app.get('/', function(req, res) {
+	console.log(req.user)
   res.render('home');
 });
 
