@@ -39,6 +39,8 @@ function addUser(profile) {
 	var sql = 'SELECT providerID from usertable WHERE providerID = \'' + key + '\''
 	con.query(sql, function(err,rows,fields) {
 	console.log("Outputing result of sql usertable find",rows);
+
+	console.log(profile.email);
 	if (err)
 		console.log(err);
 	if (rows.length == 0) {
@@ -46,7 +48,7 @@ function addUser(profile) {
 									displayName : profile.displayName,
 									firstName : profile.name.givenName,
 									lastName : profile.name.familyName,
-									email : profile.email,
+									email : profile.emails[0].value,
 									photoURL : "foo.jpg"}
 		 console.log(key);
 		 con.query('INSERT INTO usertable SET ?',value,function(err,rows,fields) {
@@ -87,7 +89,8 @@ FacebookStrategy = require('passport-facebook').Strategy;
 passport.use(new FacebookStrategy({
     clientID: 1156295237830810,
     clientSecret: '2230c4715ef21d98097f61eba2fe5330',
-    callbackURL: "http://localhost:8080/auth/facebook/callback"
+    callbackURL: "http://localhost:8080/auth/facebook/callback",
+		profileFields: ['id','displayName','email','first_name','last_name']
   },
   function(accessToken, refreshToken, profile, done) {
 		console.log("Profile",profile);
@@ -154,9 +157,12 @@ app.get('/add_new_product', function(req, res){
 })
 
 app.get('/userprofile', function(req, res){
-  res.redner('userprofile');
+  res.render('userprofile');
 })
 
+app.get('/search',function(req,res){
+
+})
 
 
 
