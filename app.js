@@ -1,12 +1,15 @@
 var express = require('express');
 var path = require('path');
 var exphbs  = require('express-handlebars');
+var bodyParser = require('body-parser');
 var app = express();
 
 // Handlebar config
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-app.use(express.static('./assets'))
+app.use(express.static('./assets'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //  MySQL Connection
 var mysql = require('mysql');
@@ -160,9 +163,24 @@ app.get('/userprofile', function(req, res){
   res.render('userprofile');
 })
 
-app.get('/search',function(req,res){
+app.post('/search',function(req,res){
 
+	var sql = 'SELECT * FROM itemTable WHERE(name LIKE \'%' + req.body.searchText + "%\');";
+	con.query(sql,function(err,rows,fields){
+		if(err){
+			console.log(err);
+			res.send(err);
+		}
+		else{
+			console.log("Search Results: ",rows);
+			res.send(rows);
+		}
+	});
+
+	//res.render("search");
 })
+
+
 
 
 
