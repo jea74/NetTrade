@@ -46,7 +46,7 @@ function addUser(profile) {
 									displayName : profile.displayName,
 									firstName : profile.name.givenName,
 									lastName : profile.name.familyName,
-									email : "google.com",
+									email : profile.email,
 									photoURL : "foo.jpg"}
 		 console.log(key);
 		 con.query('INSERT INTO usertable SET ?',value,function(err,rows,fields) {
@@ -67,13 +67,14 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:8080/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
+		console.log("profile",profile)
 		addUser(profile);
     return done(null, profile);
   }
 ));
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login','email'] }));
 
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
@@ -95,7 +96,8 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook',
+  passport.authenticate('facebook', { scope: ['public_profile','email']}));
 
 // Facebook will redirect the user to this URL after approval.  Finish the
 // authentication process by attempting to obtain an access token.  If
