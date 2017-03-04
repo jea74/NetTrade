@@ -8,6 +8,7 @@ var app = express();
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(express.static('./assets'));
+app.use('/product_uploads',express.static('product_uploads'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -167,17 +168,29 @@ app.post('/search',function(req,res){
 
 	var sql = 'SELECT * FROM itemTable WHERE(name LIKE \'%' + req.body.searchText + "%\');";
 	con.query(sql,function(err,rows,fields){
-		if(err){
+		if(err) {
 			console.log(err);
-			res.send(err);
+			// Send 500 Error
+			res.status(500).send('Something broke!')
 		}
-		else{
-			console.log("Search Results: ",rows);
-			res.send(rows);
+		else {
+			// Rendering search result page
+			// Passing in query results to handlebar template
+			res.render('search',{search_results : rows,
+			                     search_query : req.body.searchText,
+												   num_hits : rows.length,
+												   helpers: {
+														 // Limits the descript to 100 chars
+														 description: function() {
+															 if (this.description.length > 100)
+															   return this.description.substring(0,100) + ' ...';
+															 else
+															   return this.description;
+														 }
+													 }
+												 });
 		}
 	});
-
-	//res.render("search");
 })
 
 

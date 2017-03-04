@@ -1,0 +1,27 @@
+<p class="text-muted">Found {{num_hits}} result(s) for query "{{search_query}}" </p>
+{{#each search_results}}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="media">
+        <div class="media-left">
+          <a href="#">
+            <img src="/product_uploads/{{this.photoURL}}" height="160" width="160" alt="">
+          </a>
+        </div>
+        <div class="media-body">
+          <h4>
+            <a href="/product/{{this.itemID}}">{{this.name}}</a>
+            <small>
+              <span class="label label-default">{{this.category}}</span>
+            </small>
+          </h4>
+          <p>{{description}}</p>
+          <h4 class="text-success">${{this.price}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+{{else}}
+  <p>Found no search results. Please try a different search.</p>
+{{/each}}
