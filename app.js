@@ -17,7 +17,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'root',
+	password: 'Root1!',
 	database: 'netTrade'
 });
 
@@ -36,6 +36,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
+
 
 // Adds new user to database if already there does nothing
 function addUser(profile) {
@@ -138,17 +139,20 @@ app.get('/login', function(req, res){
 
 })
 
-app.get('/addproduct',function(req,res){
-	res.render("addnewproduct");
-})
 
-app.get('/add_new_product', function(req, res){
-	var category = req.query.category;
-	var product_name= req.query.name;
-	var desc=req.query.product_desc;
-	var product_price=req.query.price;
-	var image=req.query.image;
-  var product = { name: product_name, photoURL: image, price: product_price, description: desc, providerID: "FACEBOOK.COM"};
+var multer = require('multer')
+var upload = multer({dest: 'upload/'})
+
+app.post('/api/file', upload.single('product_image'), function (req, res, next) {
+	var product_name= req.body.product_name;
+	var desc=req.body.product_description;
+	var product_price=req.body.price;
+	var category = req.body.categories;
+	var image = req.file.filename;
+	console.log("______________________");
+	console.log(JSON.stringify(req.file));
+	
+	var product = { name: product_name, photoURL: image, price: product_price, description: desc, providerID: "FACEBOOK.COM"};
 	console.log(product);
   var query = con.query('INSERT INTO productt SET ?', product, function(err,rows,fields) {
   if (err)
@@ -156,8 +160,13 @@ app.get('/add_new_product', function(req, res){
   else
     console.log('Here is the result : ', rows);
   });
-  res.send('ALL');
+    res.render('home');
+});
 
+
+
+app.get('/addproduct',function(req,res){
+	res.render("addnewproduct");
 })
 
 app.get('/userprofile', function(req, res){
