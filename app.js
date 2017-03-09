@@ -151,7 +151,7 @@ app.post('/api/file', upload.single('product_image'), function (req, res, next) 
 	var image = req.file.filename;
 	console.log("______________________");
 	console.log(JSON.stringify(req.file));
-	
+
 	var product = { name: product_name, photoURL: image, price: product_price, description: desc, providerID: "FACEBOOK.COM"};
 	console.log(product);
   var query = con.query('INSERT INTO productt SET ?', product, function(err,rows,fields) {
@@ -186,18 +186,18 @@ app.post('/search',function(req,res){
 			// Rendering search result page
 			// Passing in query results to handlebar template
 			res.render('search',{search_results : rows,
-			                     search_query : req.body.searchText,
-												   num_hits : rows.length,
-												   helpers: {
-														 // Limits the descript to 100 chars
-														 description: function() {
-															 if (this.description.length > 100)
-															   return this.description.substring(0,100) + ' ...';
-															 else
-															   return this.description;
-														 }
-													 }
-												 });
+			    search_query : req.body.searchText,
+			    num_hits : rows.length,
+	        helpers: {
+				  // Limits the descript to 100 chars
+					description: function() {
+					if (this.description.length > 100)
+					     return this.description.substring(0,100) + ' ...';
+					else
+							 return this.description;
+					}
+					}
+			});
 		}
 	});
 })
