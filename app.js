@@ -17,7 +17,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'root', 
+	password: 'Root1!',
 	database: 'netTrade'
 });
 
@@ -141,20 +141,21 @@ app.get('/login', function(req, res){
 
 
 var multer = require('multer')
-var upload = multer({dest: 'upload/'})
+var upload = multer({dest: 'product_uploads/'})
 
 app.post('/api/file', upload.single('product_image'), function (req, res, next) {
 	var product_name= req.body.product_name;
 	var desc=req.body.product_description;
 	var product_price=req.body.price;
 	var category = req.body.categories;
+	console.log(category); //------------------------------------------------------------------------------------------------------------------------
 	var image = req.file.filename;
 	console.log("______________________");
 	console.log(JSON.stringify(req.file));
-
-	var product = { name: product_name, photoURL: image, price: product_price, description: desc, providerID: "FACEBOOK.COM"};
+	
+	var product = { name: product_name, category: category, photoURL: image, price: product_price, description: desc, providerID: req.user};
 	console.log(product);
-  var query = con.query('INSERT INTO productt SET ?', product, function(err,rows,fields) {
+  var query = con.query('INSERT INTO itemtable SET ?', product, function(err,rows,fields) {
   if (err)
     console.log(err);
   else
@@ -186,18 +187,18 @@ app.post('/search',function(req,res){
 			// Rendering search result page
 			// Passing in query results to handlebar template
 			res.render('search',{search_results : rows,
-			    search_query : req.body.searchText,
-			    num_hits : rows.length,
-	        helpers: {
-				  // Limits the descript to 100 chars
-					description: function() {
-					if (this.description.length > 100)
-					     return this.description.substring(0,100) + ' ...';
-					else
-							 return this.description;
-					}
-					}
-			});
+			                     search_query : req.body.searchText,
+												   num_hits : rows.length,
+												   helpers: {
+														 // Limits the descript to 100 chars
+														 description: function() {
+															 if (this.description.length > 100)
+															   return this.description.substring(0,100) + ' ...';
+															 else
+															   return this.description;
+														 }
+													 }
+												 });
 		}
 	});
 })
