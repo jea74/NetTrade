@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: netTrade
+-- Host: localhost    Database: nettrade
 -- ------------------------------------------------------
 -- Server version	5.7.17-log
 
@@ -26,7 +26,7 @@ CREATE TABLE `itemtable` (
   `name` varchar(20) DEFAULT NULL,
   `category` varchar(20) DEFAULT NULL,
   `photoURL` varchar(1000) DEFAULT NULL,
-  `price` float(4,2) DEFAULT NULL,
+  `price` float DEFAULT NULL,
   `description` text,
   `providerID` varchar(500) DEFAULT NULL,
   `itemID` int(11) NOT NULL AUTO_INCREMENT,
@@ -42,7 +42,7 @@ CREATE TABLE `itemtable` (
 
 LOCK TABLES `itemtable` WRITE;
 /*!40000 ALTER TABLE `itemtable` DISABLE KEYS */;
-INSERT INTO `itemtable` VALUES ('Rad Bike','Vehicles','bike.jpeg',30.00,'Bike that is rad','facebook1',1),('Cool Shirt','Clothes','shirt.jpeg',25.00,'Really cool shirt','google1',2),('Great Hat','Clothes','hat.jpeg',5.00,'Not a great hat by any means','facebook2',3),('Loud Headphones','Electronics','headphone.jpeg',85.00,'Super loud headphones that will bust your eardrum.','google2',4),('Decent Pants','Clothes','pants.jpeg',55.00,'Pretty decent pants that have been worn too many times','facebook3',5);
+INSERT INTO `itemtable` VALUES ('Rad Bike','Vehicles','bike.jpeg',30,'Bike that is rad','facebook1',1),('Cool Shirt','Clothes','shirt.jpeg',25,'Really cool shirt','google1',2),('Great Hat','Clothes','hat.jpeg',5,'Not a great hat by any means','facebook2',3),('Loud Headphones','Electronics','headphone.jpeg',85,'Super loud headphones that will bust your eardrum.','google2',4),('Decent Pants','Clothes','pants.jpeg',55,'Pretty decent pants that have been worn too many times','facebook3',5);
 /*!40000 ALTER TABLE `itemtable` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,4 +83,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-25 21:23:46
+-- Dump completed on 2017-03-09 13:21:12
