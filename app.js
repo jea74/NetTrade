@@ -30,7 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
-  done(null, user.provider + user.id);
+  done(null, {id: user.provider + user.id, displayName: user.displayName});
 });
 
 passport.deserializeUser(function(obj, done) {
@@ -126,7 +126,7 @@ con.connect(function(err) {
 
 app.get('/', function(req, res) {
 	console.log(req.user)
-  res.render('home');
+  res.render('home',{user: req.user});
 });
 
 app.get('/itemdetails', function(req, res){
@@ -152,8 +152,8 @@ app.post('/api/file', upload.single('product_image'), function (req, res, next) 
 	var image = req.file.filename;
 	console.log("______________________");
 	console.log(JSON.stringify(req.file));
-	
-	var product = { name: product_name, category: category, photoURL: image, price: product_price, description: desc, providerID: req.user};
+
+	var product = { name: product_name, category: category, photoURL: image, price: product_price, description: desc, providerID: req.user.id};
 	console.log(product);
   var query = con.query('INSERT INTO itemtable SET ?', product, function(err,rows,fields) {
   if (err)
@@ -161,13 +161,13 @@ app.post('/api/file', upload.single('product_image'), function (req, res, next) 
   else
     console.log('Here is the result : ', rows);
   });
-    res.render('home');
+  res.redirect('/');
 });
 
 
 
 app.get('/addproduct',function(req,res){
-	res.render("addnewproduct");
+	res.render("addnewproduct",{user: req.user});
 })
 
 app.get('/userprofile', function(req, res){
@@ -186,7 +186,8 @@ app.post('/search',function(req,res){
 		else {
 			// Rendering search result page
 			// Passing in query results to handlebar template
-			res.render('search',{search_results : rows,
+			res.render('search',{user: req.user,
+				                   search_results : rows,
 			                     search_query : req.body.searchText,
 												   num_hits : rows.length,
 												   helpers: {
@@ -203,7 +204,10 @@ app.post('/search',function(req,res){
 	});
 })
 
-
+app.get('/logout',function(req,res) {
+	req.logout()
+	res.redirect('/');
+})
 
 
 

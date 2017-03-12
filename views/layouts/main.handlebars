@@ -16,7 +16,8 @@
   <link rel="stylesheet" type="text/css" href="css/slick.css"/>
   <link rel="stylesheet" type="text/css" href="css/slick-theme.css"/>
   <link rel="stylesheet" type="text/css" href="css/itemdetails.css"/>
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap-social.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 
 
@@ -58,10 +59,55 @@
             </div>
             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> </button>
           </form>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="../login">Sign In</a></li>
-            <li><a href="../login">Sign Up</a></li>
-          </ul>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          {{#if user}}
+            <li style="padding-right : 5px">
+              <div class="navbar-btn">
+                <a href="/addproduct" class="btn btn-default">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Product
+                </a>
+              </div>
+            </li>
+            <li>
+              <div class="dropdown">
+                <button class="btn btn-default navbar-btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  {{user.displayName}}
+                  <span class="caret"></span>
+               </button>
+               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                 <li><a href="/account">My Account</a></li>
+                 <li><a href="/logout">Log Out</a></li>
+              </ul>
+             </div>
+          </li>
+          {{else}}
+          <li>
+            <div class="dropdown">
+              <button class="btn btn-default navbar-btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Sign In
+                <span class="caret"></span>
+              </button>
+             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+               <li style="padding: 3px;">
+                 <a href="/auth/google">
+                   <button class="btn btn-block btn-social btn-google">
+                     <span class="fa fa-google"></span>Sign in with Google
+                   </button>
+                 </a>
+               </li>
+               <li style="padding: 3px;">
+                 <a href="/auth/facebook">
+                   <button class="btn btn-block btn-social btn-facebook">
+                     <span class="fa fa-facebook"></span>Sign in with Facebook
+                   </button>
+                 </a>
+               </li>
+            </ul>
+           </div>
+         </li>
+          {{/if}}
+        </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
