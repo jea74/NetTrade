@@ -17,7 +17,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'Root1!',
+	password: 'root',
 	database: 'netTrade'
 });
 
@@ -30,7 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
-  done(null, {id: user.provider + user.id, displayName: user.displayName});
+  done(null, {id: user.provider + user.id, displayName: user.displayName, email: user.emails[0].value});
 });
 
 passport.deserializeUser(function(obj, done) {
@@ -146,10 +146,10 @@ var upload = multer({dest: 'product_uploads/'})
 app.post('/api/file', upload.single('product_image'), function (req, res, next) {
 	if(req.user== undefined)
 	{
-			res.render('/login'); 	//ALERT : DOES NOT WORK	//if user is not logged in and tries to add product, the user will be redirected to the login page. 
+			res.render('/login'); 	//ALERT : DOES NOT WORK	//if user is not logged in and tries to add product, the user will be redirected to the login page.
 	}
 	else {
-	
+
 	var product_name= req.body.product_name;
 	var desc=req.body.product_description;
 	var product_price=req.body.price;
@@ -172,7 +172,7 @@ app.get('/addproduct',function(req,res){
 })
 
 app.get('/userprofile', function(req, res){
-  res.render('userprofile');
+  res.render('userprofile',{user: req.user, name: req.user.displayName , email: req.user.email});
 })
 
 
@@ -186,7 +186,7 @@ app.get('/product/:id',function(req,res){
 			res.status(500).send('Something broke!')
 		}
 		else {
-			res.render('itemdetails', {search_results : rows}); 
+			res.render('itemdetails', {search_results : rows});
 		}
 	});
 })
