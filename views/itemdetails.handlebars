@@ -1,31 +1,33 @@
 <div class="container">
-  <div class="row">
-    <div class="col-xs-4" style="padding-right: 50px">
-      <h1> Tshirt</h1>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-4" style="padding-right: 50px" >
-      <img src="http://www.mgequity.co.uk/images/a/httpstore.nike.comgben_gbpdroshe-two-flyknit-shoe-11156562pgid-11461230.jpg" class="block-center">
-    </div>
-
-    <div class="col-xs-4">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean posuere eget felis id faucibus. Nulla facilisi. Sed dolor magna, fermentum sed nisi in, fringilla iaculis mi. Etiam vitae sem orci. Curabitur non justo consectetur, dapibus lectus in, maximus massa. Morbi id hendrerit ante, non euismod ante. Donec a enim sed dui tincidunt sodales. Nulla nec suscipit nibh, vitae hendrerit velit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec cursus metus erat, non euismod leo porta a. Maecenas dignissim sodales enim et accumsan. Cras nec hendrerit massa, sed gravida velit. Mauris pellentesque risus risus, a semper ipsum porttitor non. Vivamus iaculis faucibus nibh vitae finibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-        Phasellus suscipit consectetur est, nec eleifend ex sagittis quis. Nulla facilisi. Curabitur eu ultricies nisi, non tempus arcu. Aliquam laoreet lorem in urna placerat dapibus. Integer aliquet cursus odio vel bibendum.
-      </p>
-    </div>
-    <div class="col-xs-4">
-        <textarea class="form-control" rows="20" style="min-width: 100%" placeholder="Type your message here...."></textarea>
-  </div>
-</div></br>
-
-  <div class="row">
-       <div class="text-right">
-         <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-         <button type = "button" class = "btn btn-primary btn-lg">
-         Contact!
-         </button>
-       </div>
-     </div>
-   </div></br>
+      <div class="jumbotron">
+        <h1>NetTrade</h1>
+        <p>The best place to list items!!!</p>
+      </div>
+	  
+	  {{#each search_results}}
+	<div class="row">
+		<div class="col-sm-12 col-lg-12">
+			<div class="jumbotron">
+        <div class="media-left">
+            <img src="/product_uploads/{{this.photoURL}}" height="160" width="160" alt="">
+        </div>
+        <div class="media-body"> <br>
+		
+		<b> Product Details </b> <br>
+            &nbsp; Name : {{name}} <br> <br>
+			&nbsp; Category : {{category}} <br> <br>
+			&nbsp; Price : ${{price}} <br> <br>
+			&nbsp; Description<br> &nbsp; &nbsp; {{this.description}} <br> <br>
+			<br>
+			<b> Seller's Details </b> <br>
+			&nbsp; Name : {{displayName}} <br> <br>
+			&nbsp; Email : {{email}} <br> <br>
+			
+        </div>
+		</div>
+		</div>
+		{{else}}
+  <p>Found no search results. Please try a different search.</p>
+{{/each}}
+		
+		</div>

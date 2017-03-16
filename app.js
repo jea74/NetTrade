@@ -144,15 +144,17 @@ var multer = require('multer')
 var upload = multer({dest: 'product_uploads/'})
 
 app.post('/api/file', upload.single('product_image'), function (req, res, next) {
+	if(req.user== undefined)
+	{
+			res.render('/login'); 	//ALERT : DOES NOT WORK	//if user is not logged in and tries to add product, the user will be redirected to the login page. 
+	}
+	else {
+	
 	var product_name= req.body.product_name;
 	var desc=req.body.product_description;
 	var product_price=req.body.price;
 	var category = req.body.categories;
-	console.log(category); //------------------------------------------------------------------------------------------------------------------------
 	var image = req.file.filename;
-	console.log("______________________");
-	console.log(JSON.stringify(req.file));
-
 	var product = { name: product_name, category: category, photoURL: image, price: product_price, description: desc, providerID: req.user.id};
 	console.log(product);
   var query = con.query('INSERT INTO itemtable SET ?', product, function(err,rows,fields) {
@@ -162,9 +164,8 @@ app.post('/api/file', upload.single('product_image'), function (req, res, next) 
     console.log('Here is the result : ', rows);
   });
   res.redirect('/');
+	}
 });
-
-
 
 app.get('/addproduct',function(req,res){
 	res.render("addnewproduct",{user: req.user});
@@ -172,6 +173,22 @@ app.get('/addproduct',function(req,res){
 
 app.get('/userprofile', function(req, res){
   res.render('userprofile');
+})
+
+
+app.get('/product/:id',function(req,res){
+	var sql = 'SELECT name, category, itemtable.photoURL, price, description, displayName, email FROM itemTable, usertable WHERE itemId = ' + req.params.id + ' && itemtable.providerID=usertable.providerID;';
+	con.query(sql,function(err,rows,fields){
+					console.log(rows);
+		if(err) {
+			console.log(err);
+			// Send 500 Error
+			res.status(500).send('Something broke!')
+		}
+		else {
+			res.render('itemdetails', {search_results : rows}); 
+		}
+	});
 })
 
 app.post('/search',function(req,res){
@@ -186,6 +203,7 @@ app.post('/search',function(req,res){
 		else {
 			// Rendering search result page
 			// Passing in query results to handlebar template
+console.log(rows);
 			res.render('search',{user: req.user,
 				                   search_results : rows,
 			                     search_query : req.body.searchText,
