@@ -17,7 +17,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'root',
+	password: 'Root1!',
 	database: 'netTrade'
 });
 
@@ -126,7 +126,31 @@ con.connect(function(err) {
 
 app.get('/', function(req, res) {
 	console.log(req.user)
-  res.render('home',{user: req.user});
+	
+
+	var sql = 'SELECT name, itemtable.photoURL, price, itemID FROM itemTable WHERE category IN (\'Clothes\');';
+	con.query(sql,function(err,rows1,fields){
+					console.log(rows1);
+		if(err) {
+			console.log(err);
+			res.status(500).send('Something broke!')
+		}
+		else {
+			var sql = 'SELECT name, itemtable.photoURL, price, itemID FROM itemTable WHERE category IN (\'Electronics\');';
+			con.query(sql,function(err,rows2,fields){
+				
+					if(err) {
+						console.log(err);
+						res.status(500).send('Something broke!')
+					}
+					else {
+							console.log("aaaa");
+								console.log(rows2);
+						res.render('home', {user: req.user, results_clothes : rows1, results_electronics : rows2});
+					}
+			});
+		}
+	});
 });
 
 app.get('/itemdetails', function(req, res){

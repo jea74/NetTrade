@@ -1,204 +1,61 @@
-
-      <div class="jumbotron">
+      <div class="jumbotron" style="padding-top: 20px; padding-bottom: 20px">
         <h1>NetTrade</h1>
         <p>The best place to list items!!!</p>
       </div>
+	  
       <div class="row">
         <div class="col-sm-12 col-lg-12">
           <h1>Clothing <small><a href="View More">View More</a></small></h1>
           <hr>
           <div class="clothing">
+		  
+		  {{#each results_clothes}}
+<a href="/product/{{this.itemID}}">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h4 class="panel-title">Nike</h4>
+                <h4 class="panel-title">{{this.name}}</h4>
               </div>
               <div class="panel-body" stlye="padding:0px;">
-                <img src="http://www.mgequity.co.uk/images/a/httpstore.nike.comgben_gbpdroshe-two-flyknit-shoe-11156562pgid-11461230.jpg" class="block-center">
+                <img src="/product_uploads/{{this.photoURL}}" class="block-center" height="150px" width="150px">
               </div>
               <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $50
+                <button class="btn btn-default">
+                  ${{this.price}}
                 </button>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Drexel T-Shirt</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src="http://images.footballfanatics.com/productImages/_387000/FF_387487_s.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $25
-                </button>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Drexel</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src="https://images-na.ssl-images-amazon.com/images/I/51xNhqDi9wL._AC_US160_.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $50
-                </button>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Adidas</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src="https://images-na.ssl-images-amazon.com/images/I/71BPGJ3Sh2L._AC_UL160_SR160,160_.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $75
-                </button>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Nike</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src=" http://www.newjordanscheapshoesonlinesale.com/upload/products/images/Air-Jordan-1-Retro-Mens-Basketball-Shoes-Black-Red-261_v.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $125
-                </button>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Nike</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src="http://images.footballfanatics.com/productImages/_345000/FF_345111_s.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $125
-                </button>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Drexel Hat</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src="https://images-na.ssl-images-amazon.com/images/I/41eLmS6rZ1L._AC_US160_.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $125
-                </button>
-              </div>
-            </div>
+			</a>
+{{/each}}
           </div>
         </div>
       </div>
-
-      <div class="row">
+	  
+	  
+	<br>
+	
+	      <div class="row">
         <div class="col-sm-12 col-lg-12">
           <h1>Electronics <small><a href="View More">View More</a></small></h1>
           <hr>
           <div class="clothing">
+		  
+ {{#each results_electronics}}
+<a href="/product/{{this.itemID}}">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h4 class="panel-title">Iphone</h4>
+                <h4 class="panel-title">{{this.name}}</h4>
               </div>
               <div class="panel-body" stlye="padding:0px;">
-                <img src="https://images-na.ssl-images-amazon.com/images/I/81LvAxhXtdL._AC_UL160_SR160,160_.jpg" class="block-center">
+                <img src="/product_uploads/{{this.photoURL}}" class="block-center" height="150px" width="150px">
               </div>
               <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $50
+                <button class="btn btn-default">
+                  {{this.price}}
                 </button>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Drexel T-Shirt</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src="https://images-na.ssl-images-amazon.com/images/I/71N6lGq3HnL._AC_UL160_SR160,160_.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $25
-                </button>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Drexel</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src="https://images-na.ssl-images-amazon.com/images/I/61%2BdeXD3qLL._AC_UL160_SR160,160_.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $50
-                </button>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Adidas</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src="https://images-na.ssl-images-amazon.com/images/I/610HPvt615L._AC_UL160_SR160,160_.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $75
-                </button>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Nike</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src=" https://images-na.ssl-images-amazon.com/images/I/416yacEwVqL._AC_UL160_SR160,160_.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $125
-                </button>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Nike</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src="https://images-na.ssl-images-amazon.com/images/I/410eVXGaqrL._AC_US160_.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $125
-                </button>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">Drexel Hat</h4>
-              </div>
-              <div class="panel-body" stlye="padding:0px;">
-                <img src="https://images-na.ssl-images-amazon.com/images/I/81HvNQEUHpL._AC_UL160_SR160,160_.jpg" class="block-center">
-              </div>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-default">
-                  $125
-                </button>
-              </div>
-            </div>
+			</a>
+{{/each}}
           </div>
         </div>
-      </div>
+      </div>  

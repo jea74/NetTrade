@@ -1,17 +1,16 @@
-<div class="container">
       <div class="jumbotron">
         <h1>NetTrade</h1>
         <p>The best place to list items!!!</p>
       </div>
-	  
-	  {{#each search_results}}
+
+	  {{#each search_results}}	
 	<div class="row">
 		<div class="col-sm-12 col-lg-12">
 			<div class="jumbotron">
         <div class="media-left">
             <img src="/product_uploads/{{this.photoURL}}" height="160" width="160" alt="">
         </div>
-        <div class="media-body"> <br>
+       	 <div class="media-body"> <br>
 		
 		<b> Product Details </b> <br>
             &nbsp; Name : {{name}} <br> <br>
@@ -23,11 +22,10 @@
 			&nbsp; Name : {{displayName}} <br> <br>
 			&nbsp; Email : {{email}} <br> <br>
 			
-        </div>
+      	  </div>
+		</div>
 		</div>
 		</div>
 		{{else}}
   <p>Found no search results. Please try a different search.</p>
 {{/each}}
-		
-		</div>
