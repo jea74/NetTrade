@@ -56,9 +56,33 @@
         <ul class="nav navbar-nav">
           <form method="POST" action="http://localhost:8080/search" class="navbar-form navbar-left" role="search">
             <div class="form-group">
-              <input name="searchText" type="text" class="form-control" placeholder="Search">
+              <div class="input-group">
+                <div class="input-group-btn search-panel">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                      {{#if search_category}}
+                    	  <span id="search_concept">{{search_category}} </span><span class="caret"></span>
+                      {{else}}
+                    	  <span id="search_concept">All </span><span class="caret"></span>
+                      {{/if}}
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#All">All</a></li>
+                      <li><a href="#Clothes">Clothes</a></li>
+                      <li><a href="#Electronics">Electronics</a></li>
+                      <li><a href="#Home">Home</a></li>
+                    </ul>
+                </div>
+                {{#if search_category}}
+                  <input type="hidden" name="searchCategory" value="{{search_category}}" id="searchCategory">
+                {{else}}
+                  <input type="hidden" name="searchCategory" value="All" id="searchCategory">
+                {{/if}}
+                <input type="text" class="form-control" name="searchText" placeholder="Search"
+                value="{{search_query}}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
             </div>
-            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> </button>
           </form>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -206,6 +230,18 @@
     <script type="text/javascript" src="js/slick.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(e){
+        $('.search-panel .dropdown-menu').find('a').click(function(e) {
+  		    e.preventDefault();
+  		    var param = $(this).attr("href").replace("#","");
+  		    var concept = $(this).text();
+  		    $('.search-panel span#search_concept').text(concept);
+  		    $('.input-group #searchCategory').val(param);
+          $('#searchCategory').val(concept);
+  	    });
+      });
+    </script>
     <script>
     $(document).ready(function(){
       $('.clothing').slick({

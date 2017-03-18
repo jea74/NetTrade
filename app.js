@@ -17,7 +17,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'Root1!',
+	password: 'root',
 	database: 'netTrade'
 });
 
@@ -126,7 +126,7 @@ con.connect(function(err) {
 
 app.get('/', function(req, res) {
 	console.log(req.user)
-	
+
 
 	var sql = 'SELECT name, itemtable.photoURL, price, itemID FROM itemTable WHERE category IN (\'Clothes\');';
 	con.query(sql,function(err,rows1,fields){
@@ -138,7 +138,7 @@ app.get('/', function(req, res) {
 		else {
 			var sql = 'SELECT name, itemtable.photoURL, price, itemID FROM itemTable WHERE category IN (\'Electronics\');';
 			con.query(sql,function(err,rows2,fields){
-				
+
 					if(err) {
 						console.log(err);
 						res.status(500).send('Something broke!')
@@ -217,7 +217,16 @@ app.get('/product/:id',function(req,res){
 
 app.post('/search',function(req,res){
 
-	var sql = 'SELECT * FROM itemTable WHERE(name LIKE \'%' + req.body.searchText + "%\');";
+	// Category based search
+	if (req.body.searchCategory == 'All') {
+	  var sql = 'SELECT * FROM itemTable WHERE(name LIKE \'%' + req.body.searchText + "%\');";
+	}
+	else {
+	  var sql = 'SELECT * FROM itemTable WHERE(name LIKE \'%' + req.body.searchText + "%\') ";
+		sql += ' AND category = \'' + req.body.searchCategory + '\';'
+		console.log("sql -> ",sql)
+	}
+
 	con.query(sql,function(err,rows,fields){
 		if(err) {
 			console.log(err);
@@ -227,10 +236,11 @@ app.post('/search',function(req,res){
 		else {
 			// Rendering search result page
 			// Passing in query results to handlebar template
-console.log(rows);
+			console.log(req.body)
 			res.render('search',{user: req.user,
 				                   search_results : rows,
 			                     search_query : req.body.searchText,
+													 search_category : req.body.searchCategory,
 												   num_hits : rows.length,
 												   helpers: {
 														 // Limits the descript to 100 chars
