@@ -22,9 +22,11 @@
 
 
 
-
-  <style>body { padding-top: 70px; }</style>
-
+  {{#if ishomepage}}
+  <style>body { padding-top: 0px; }</style>
+  {{else}}
+  <style>body { padding-top: 70px;}</style>
+  {{/if}}
   <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
   <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
   <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
@@ -136,6 +138,23 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+
+    {{#if ishomepage}}
+    <div class="container-fluid" style="padding:0px">
+      <link rel="stylesheet" type="text/css" href="css/home.css"/>
+      <div class="video-section">
+
+        <video id="video-elem" preload="auto" autoplay="true" loop="loop" muted="muted" poster="https://drive.google.com/open?id=0Bytx2maNMTfQRE1YYnYyb1ViQ3M">
+          <source src="video.mp4" type="video/mp4">
+            Video not supported
+          </video>
+
+          <div class="video-overlay">
+            <h1>One stop shopping for your necessities.</h1>
+          </div>
+        </div>
+    </div>
+    {{/if}}
 
     <div class="container">
       {{{body}}}

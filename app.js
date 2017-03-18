@@ -17,7 +17,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'root',
+	password: 'Mac1!book2012',
 	database: 'netTrade'
 });
 
@@ -146,7 +146,7 @@ app.get('/', function(req, res) {
 					else {
 							console.log("aaaa");
 								console.log(rows2);
-						res.render('home', {user: req.user, results_clothes : rows1, results_electronics : rows2});
+						res.render('home', {user: req.user, results_clothes : rows1, results_electronics : rows2, ishomepage:true});
 					}
 			});
 		}
