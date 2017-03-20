@@ -17,7 +17,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'Mac1!book2012',
+	password: 'Root1!',
 	database: 'netTrade'
 });
 
@@ -74,7 +74,7 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:8080/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-		console.log("profile",profile)
+		//console.log("profile",profile)
 		addUser(profile);
     return done(null, profile);
   }
@@ -98,7 +98,7 @@ passport.use(new FacebookStrategy({
 		profileFields: ['id','displayName','email','first_name','last_name']
   },
   function(accessToken, refreshToken, profile, done) {
-		console.log("Profile",profile);
+		//console.log("Profile",profile);
 		addUser(profile)
     return done(null, profile);
   }
@@ -124,13 +124,32 @@ con.connect(function(err) {
 	}
 });
 
+
+app.post('/update_prod', function(req, res) {
+	var product_name= req.body.name;
+	var desc=req.body.product_desc;
+	var product_price=req.body.price;
+	var category = req.body.category;
+	var item_id = req.body.id;
+ 	var qur ='Update itemtable SET name=\'' + product_name + '\', category=\''+category+'\', price=\'' +product_price+ '\',description=\'' +desc+'\' where itemID=\''+item_id+'\';';
+	  var query = con.query(qur , function(err,rows,fields) {
+  	if (err)
+	    console.log(err);
+	else
+	    console.log('Here is the result : ', rows);
+  });
+
+	res.send("Product Updated");
+});
+
+
 app.get('/', function(req, res) {
 	console.log(req.user)
 
 
 	var sql = 'SELECT name, itemtable.photoURL, price, itemID FROM itemTable WHERE category IN (\'Clothes\');';
 	con.query(sql,function(err,rows1,fields){
-					console.log(rows1);
+					//console.log(rows1);
 		if(err) {
 			console.log(err);
 			res.status(500).send('Something broke!')
@@ -144,8 +163,6 @@ app.get('/', function(req, res) {
 						res.status(500).send('Something broke!')
 					}
 					else {
-							console.log("aaaa");
-								console.log(rows2);
 						res.render('home', {user: req.user, results_clothes : rows1, results_electronics : rows2, ishomepage:true});
 					}
 			});
@@ -180,12 +197,11 @@ app.post('/api/file', upload.single('product_image'), function (req, res, next) 
 	var category = req.body.categories;
 	var image = req.file.filename;
 	var product = { name: product_name, category: category, photoURL: image, price: product_price, description: desc, providerID: req.user.id};
-	console.log(product);
   var query = con.query('INSERT INTO itemtable SET ?', product, function(err,rows,fields) {
   if (err)
     console.log(err);
   else
-    console.log('Here is the result : ', rows);
+    console.log('Product added to database');
   });
   res.redirect('/');
 	}
@@ -201,16 +217,25 @@ app.get('/userprofile', function(req, res){
 
 
 app.get('/product/:id',function(req,res){
-	var sql = 'SELECT name, category, itemtable.photoURL, price, description, displayName, email FROM itemTable, usertable WHERE itemId = ' + req.params.id + ' && itemtable.providerID=usertable.providerID;';
+	var sql = 'SELECT name, category, itemtable.photoURL, price, description, itemID, itemtable.providerID, displayName, email FROM itemTable, usertable WHERE itemId = ' + req.params.id + ' && itemtable.providerID=usertable.providerID;';
 	con.query(sql,function(err,rows,fields){
-					console.log(rows);
 		if(err) {
 			console.log(err);
 			// Send 500 Error
 			res.status(500).send('Something broke!')
 		}
 		else {
-			res.render('itemdetails', {search_results : rows});
+			//console.log(req.user);
+			var this_user;
+			if(req.user)
+			{
+				this_user = (req.user.id == rows[0].providerID);
+			}
+			else
+			{
+				this_user==false;
+			}
+			res.render('itemdetails', {items : rows[0], user : req.user, product_user : this_user});
 		}
 	});
 })
