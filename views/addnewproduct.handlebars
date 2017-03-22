@@ -1,111 +1,83 @@
-<script>
-  function addproduct(form)
-{
-	var name =  form.product_name.value;
-	var category = form.categories.value;
-	var product_desc=form.product_description.value;
-	var price=form.price.value;
-	var img= "imageeee";//form.product_image.value;
-	URL="http://localhost:8080/add_new_product?name="+name+"&category="+category+"&product_desc="+product_desc+"&price="+price+"&image="+img;
-	document.getElementById("abcc").innerHTML=URL;
-	$.ajax({
-			type: "GET",
-			url: URL,
-			contentType:"application/json; charset=utf-8",
-			data:"{}",
-			datatype: "html",
-			success: function(msg)
-			{
-					document.getElementById("afterpostingad").innerHTML="PRODUCT POSTED";
-			},
-			error: function()
-			{
-				alert("Error 404 : Cannot reach server");
-			}
-		});
-
-
-}
-  </script>
-
-   <div class="container">
-      <div class="jumbotron" id="afterpostingad">
-        <h1>NetTrade</h1>
-        <p>The best place to list items!!!</p>
-      </div>
 <div class="row">
-	      <div class="col-sm-12 col-lg-12">
-		      <div class="jumbotron">
-              <form id="uploadForm"
-          enctype="multipart/form-data"
-          action="/api/file"
-          method="post">
-		  
-  <div class="form-group">
-    <label for="exampleInputEmail1">Product name</label>
-    <input type="text" class="form-control" name="product_name" placeholder="Product Name">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Product Description</label>
-    <input type="text" class="form-control" name="product_description" placeholder="Describe your product">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Price</label>
-    <input type="number" class="form-control" name="price" placeholder="Enter Price">
-  </div>
+  <div class="col-sm-12 col-lg-12">
+    <div class="jumbotron">
+      <form id="uploadForm"
+      role="form"
+      enctype="multipart/form-data"
+      data-toggle="validator"
+      action="/api/file"
+      method="post">
 
-
-
-  <div class="form-group">
- <label for="exampleInputPassword1">Category</label><br>
- <select class="selectpicker" name= "categories">
- <option> default</option>
-  <optgroup label="Electronics">
-    <option value = "Electronics">Cellphone</option>
-    <option value = "Electronics">Desktop/Laptop</option>
-    <option value = "Electronics">Bluetooth & Accessories </option>
-    <option value = "Electronics" > Camera, Photo & Video</option>
-    <option value = "Electronics" > Video Games</option>
-    <option value = "Electronics" > Software</option>
-    <option value = "Electronics" > Printers & ink</option>
-    <option value = "Electronics" > Networking </option>
-    <option value = "Electronics" > Others</option>
-  </optgroup>
-  <optgroup label="clothes">
-    <option value = "clothes" >Top</option>
-    <option value = "clothes" >Botton</option>
-    <option value = "clothes" > Dress </option>
-    <option value = "clothes" > Shoes</option>
-    <option value = "clothes" > Bag </option>
-    <option value = "clothes" > Jewelry</option>
-    <option value = "clothes" > Other</option>
-  </optgroup>
-  <optgroup label= "Home" >
-  	<option value = "Home"> Home Deco</option>
-  	<option value = "Home" > Furniture </option>
-  	<option value = "Home" > Kitchen & Dining </option>
-	<option value = "Home" > Bedding & Bath </option>
-   <option value = "Home" > Garden Deco & Tools</option>
-   <option value = "Home" > Appliance </option>
-   <option value = "Home" >Lights & Lamps</option>
-   <option value = "Home" > Other</option>
-    </optgroup>
-    <optgroup label = "Others">
-    </optgroup>
-</select>
-</div>
-
-  <div class="form-group">
-    <label for="exampleInputFile">Product Image</label>
-    <input type="file" name="product_image" />
-  </div>
-       <input type="submit" value="Upload Image" name="submit">
-</form>
-
-
-		      </div>
-	      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Product name</label>
+        <input type="text" class="form-control" name="product_name" placeholder="Product Name" data-error="Please Input Product Name" required>
+        <div class="help-block with-errors">
+        </div>
       </div>
-	</div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Product Description</label>
+        <input type="text" class="form-control" name="product_description" placeholder="Describe your product" data-error="Please Input Product Description" required>
+        <div class="help-block with-errors">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Price</label>
+        <input type="text" pattern="^\d+\.\d{2}" class="form-control" name="price" placeholder="Enter Price" pattern-error="Please input a valid price" required>
+        <div class="help-block with-errors">
+          Example 42.00
+        </div>
+      </div>
 
-<div id="abcc"></div>
+
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Category</label><br>
+        <select class="selectpicker" name= "categories">
+          <option>default</option>
+          <optgroup label="Electronics">
+            <option value="Electronics">Cellphone</option>
+            <option value="Electronics">Desktop/Laptop</option>
+            <option value="Electronics">Bluetooth & Accessories</option>
+            <option value="Electronics">Camera, Photo & Video</option>
+            <option value="Electronics">Video Games</option>
+            <option value="Electronics">Software</option>
+            <option value="Electronics">Printers & ink</option>
+            <option value="Electronics">Networking</option>
+            <option value="Electronics">Others</option>
+          </optgroup>
+          <optgroup label="Clothes">
+            <option value="Clothes">Top</option>
+            <option value="Clothes">Botton</option>
+            <option value="Clothes">Dress</option>
+            <option value="Clothes">Shoes</option>
+            <option value="Clothes">Bag </option>
+            <option value="Clothes" > Jewelry</option> <option value="Clothes" > Other</option>
+          </optgroup>
+          <optgroup label="Home" >
+            <option value="Home">Home Deco</option>
+            <option value="Home">Furniture</option>
+            <option value="Home">Kitchen & Dining</option>
+            <option value="Home">Bedding & Bath</option>
+            <option value="Home">Garden Deco & Tools</option>
+            <option value="Home">Appliance</option>
+            <option value="Home">Lights & Lamps</option>
+            <option value="Home">Other</option>
+          </optgroup>
+          <optgroup label="Others">
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputFile">Product Image</label>
+        <input type="file" name="product_image" / required>
+        <div class="help-block with-errors">
+        </div>
+      </div>
+      <input type="submit" value="Upload Product" name="submit">
+    </form>
+
+
+  </div>
+</div>
+</div>

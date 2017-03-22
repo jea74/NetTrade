@@ -29,8 +29,7 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveU
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
-  done(null, {id: user.provider + user.id, displayName: user.displayName, email: user.emails[0].value});
+passport.serializeUser(function(user, done) { done(null, {id: user.provider + user.id, displayName: user.displayName, email: user.emails[0].value});
 });
 
 passport.deserializeUser(function(obj, done) {
@@ -208,7 +207,13 @@ app.post('/api/file', upload.single('product_image'), function (req, res, next) 
 });
 
 app.get('/addproduct',function(req,res){
-	res.render("addnewproduct",{user: req.user});
+	// Make sure they are logged in before getting this page
+	if (!req.user) {
+		res.render('login');
+	}
+	else {
+	  res.render("addnewproduct",{user: req.user});
+	}
 })
 
 app.get('/userprofile', function(req, res){
