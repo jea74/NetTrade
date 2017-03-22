@@ -247,7 +247,7 @@ app.post('/api/file', upload.single('product_image'), function (req, res, next) 
   else
     console.log('Product added to database');
   });
-  res.redirect('/');
+  res.redirect('/myitems');
 	}
 });
 
