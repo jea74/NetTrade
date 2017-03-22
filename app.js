@@ -187,9 +187,36 @@ app.get('/', function(req, res) {
 	});
 });
 
-app.get('/itemdetails', function(req, res){
-  res.render('itemdetails');
-
+app.get('/myitems',function(req,res) {
+	if (req.user) {
+	  var sql = 'SELECT * FROM itemtable WHERE ';
+		sql += 'providerID = \'' + req.user.id + '\'';
+		con.query(sql,function(err,rows,fields) {
+			res.render('myitems', {
+				          items : rows,
+									user : req.user,
+		              helpers: {
+										grouped_each: function(every,context,options) {
+											var out = "", subcontext = [], i;
+                      if (context && context.length > 0) {
+                        for (i = 0; i < context.length; i++) {
+                          if (i > 0 && i % every === 0) {
+                            out += options.fn(subcontext);
+                            subcontext = [];
+                          }
+                        subcontext.push(context[i]);
+                      }
+                      out += options.fn(subcontext);
+                	    }
+                      return out;
+									}
+								}
+		 })
+	 })
+ }
+ else {
+	 res.render('login')
+ }
 })
 
 app.get('/login', function(req, res){
@@ -292,6 +319,25 @@ app.get('/userprofile', function(req, res){
 
 })
 
+
+app.get('/product/:id/delete',function(req,res) {
+	if (req.user.id) {
+	  var sql = 'DELETE from itemtable WHERE providerID =' + '\'' + req.user.id + '\' ';
+	  sql += 'AND itemID = \'' + req.params.id + '\';';
+	  con.query(sql,function(err,rows,fields) {
+		if (err) {
+			console.log(err);
+			res.status(500).send('Something broke!')
+		}
+		else {
+			res.redirect('/myitems')
+		}
+	})
+  }
+	else {
+		res.redirect('/login');
+	}
+})
 
 app.get('/product/:id',function(req,res){
 	var sql = 'SELECT name, category, itemtable.photoURL, price, description, itemID, itemtable.providerID, displayName, email FROM itemTable, usertable WHERE itemId = ' + req.params.id + ' && itemtable.providerID=usertable.providerID;';
