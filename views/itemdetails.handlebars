@@ -11,13 +11,6 @@ padding-right:10px;
 
 </style>
 
-<div class="jumbotron">
-	<h1>NetTrade</h1>
-	<p>The best place to list items!!!</p>
-</div>
-
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script>
@@ -31,7 +24,7 @@ padding-right:10px;
 		}
 		 $(this).addClass("text_box");
 	}
-	
+
 	function cancle()
 	{
 			document.getElementById("options").innerHTML = 	'<button_opt id="options"><button type="editAcc" class="btn btn-default" onclick=edit()>Edit</button></button_opt>';
@@ -41,7 +34,7 @@ padding-right:10px;
 				$(document.getElementById("editing"+i)).removeClass('text_box');
 			}
 	}
-	
+
 	function submit(temp)
 	{
 
@@ -66,8 +59,8 @@ padding-right:10px;
 			}
 		});
 	}
-	
-	
+
+
 </script>
 
 
@@ -86,7 +79,7 @@ padding-right:10px;
 							<button_opt id="options"><button type="editAcc" class="btn btn-default" onclick=edit()>Edit</button></button_opt>
 					{{/if}}
 					</h3>
-					
+
 					 <table>
       					<tbody>
       					      <tr>
@@ -124,8 +117,8 @@ padding-right:10px;
            						</tr>
 						</tbody>
 				    </table>
-					
-					
+
+
 					<h3> Seller's Details </h3> <br>
 					&nbsp; Name : {{items.displayName}} <br> <br>
 					&nbsp; Email : {{items.email}} <br> <br>
@@ -133,19 +126,3 @@ padding-right:10px;
 			</div>
 		</div>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
