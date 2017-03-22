@@ -17,7 +17,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'Root1!',
+	password: 'root',
 	database: 'netTrade'
 });
 
@@ -29,7 +29,25 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveU
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) { done(null, {id: user.provider + user.id, displayName: user.displayName, email: user.emails[0].value});
+passport.serializeUser(function(user, done) {
+/*
+	var sql = " SELECT providerID, firstName, lastName FROM userTable WHERE providerID = '" + user.provider+user.id + "';"
+	con.query(sql,function(err,rows,fields) {
+			if(err){
+				console.log(err);
+			}
+			else{
+				 var info = {
+					id: rows[0].providerID,
+					firstName: rows[0].firstName,
+					lastName: rows[0].lastName,
+					email: rows[0].email
+					}
+						console.log(info);
+			}
+		});
+*/
+	done(null, {id: user.provider + user.id, displayName: user.displayName, email: user.emails[0].value});
 });
 
 passport.deserializeUser(function(obj, done) {
@@ -216,8 +234,62 @@ app.get('/addproduct',function(req,res){
 	}
 })
 
+app.post('/api/file2',function (req, res, next) {
+	if(req.user== undefined)
+	{
+			res.render('/login'); 	//ALERT : DOES NOT WORK	//if user is not logged in and tries to add product, the user will be redirected to the login page.
+	}
+	else {
+	var new_firstname= req.body.new_firstname;
+	var new_lastname = req.body.new_lastname;
+	var new_name = req.body.new_firstname + " " +req.body.new_lastname;
+	var new_email = req.body.new_email;
+	var providerID = req.user.id;
+	//var product = { name: new_name, email: new_email, providerID: req.user.id};
+	var sql = "UPDATE userTable SET displayName = '" + new_name + "', firstName = '" + new_firstname + "', lastName = '" + new_lastname + "', email = '" + new_email + "' WHERE providerID = '" + providerID + "';";
+console.log("---------------------------------------")
+	console.log(sql);
+	var query = con.query(sql, function(err,rows,fields) {
+  if (err)
+    console.log(err);
+  else
+    console.log('User Info Changed!');
+  });
+  res.redirect('/userprofile');
+	}
+});
+
+app.get('/edit',function(req,res){
+	// Make sure they are logged in before getting this page
+	if (!req.user) {
+		res.render('login');
+	}
+	else {
+	  res.render("editacc",{user: req.user});
+	}
+})
+
 app.get('/userprofile', function(req, res){
-  res.render('userprofile',{user: req.user, name: req.user.displayName , email: req.user.email});
+	//Will use in serialize later...delete when that change is made
+	var sql = " SELECT providerID, firstName, lastName, email FROM userTable WHERE providerID = '" + req.user.id + "';"
+	console.log("___________________________________________________")
+	console.log(sql);
+	con.query(sql,function(err,rows,fields) {
+			if(err){
+				console.log(err);
+			}
+			else{
+				 var info = {
+					id: rows[0].providerID,
+					firstName: rows[0].firstName,
+					lastName: rows[0].lastName,
+					email: rows[0].email
+					}
+					var displayname = info.firstName + " " + info.lastName;
+					res.render('userprofile',{user: req.user, name: displayname , email: info.email});
+			}
+		});
+
 })
 
 
