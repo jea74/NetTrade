@@ -1,31 +1,151 @@
-      <div class="jumbotron">
-        <h1>NetTrade</h1>
-        <p>The best place to list items!!!</p>
-      </div>
+<style>
+td {
+    vertical-align: top;
+}
 
-	  {{#each search_results}}	
+.text_box{
+background: white;
+padding-left:10px;
+padding-right:10px;
+}
+
+</style>
+
+<div class="jumbotron">
+	<h1>NetTrade</h1>
+	<p>The best place to list items!!!</p>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script>
+	function edit()
+	{
+		document.getElementById("options").innerHTML = 	'<button_opt id="options"><button type="editAcc" class="btn btn-default" onclick=cancle()>Cancle</button></button_opt>&nbsp;&nbsp;<button_opt id="options"><button type="editAcc" class="btn btn-default" onclick=submit({{items.itemID}})>Submit</button></button_opt>';
+		for(var i=1; i<=4; i++)
+		{
+    		document.getElementById("editing"+i).contentEditable = true;
+			document.getElementById("editing"+i).className = "text_box";
+		}
+		 $(this).addClass("text_box");
+	}
+	
+	function cancle()
+	{
+			document.getElementById("options").innerHTML = 	'<button_opt id="options"><button type="editAcc" class="btn btn-default" onclick=edit()>Edit</button></button_opt>';
+			for(var i=1; i<=4; i++)
+			{
+    			document.getElementById("editing"+i).contentEditable = false;
+				$(document.getElementById("editing"+i)).removeClass('text_box');
+			}
+	}
+	
+	function submit(temp)
+	{
+
+	var name_ =  document.getElementById("editing1").innerHTML;
+	var category_ = document.getElementById("editing2").innerHTML;
+	var price_ =document.getElementById("editing3").innerHTML;
+	var product_desc_ =document.getElementById("editing4").innerHTML;
+	var item_id = temp;
+	URL="http://localhost:8080/update_prod";
+	$.ajax({
+			type: "POST",
+			url: URL,
+			data:{name: name_, category: category_, price: price_, product_desc: product_desc_, id: item_id},
+			datatype: "HTML",
+			success: function(msg)
+			{
+				cancle();
+			},
+			error: function()
+			{
+				alert("Error 404 : Cannot reach server");
+			}
+		});
+	}
+	
+	
+</script>
+
+
+
+
 	<div class="row">
 		<div class="col-sm-12 col-lg-12">
 			<div class="jumbotron">
-        <div class="media-left">
-            <img src="/product_uploads/{{this.photoURL}}" height="160" width="160" alt="">
-        </div>
-       	 <div class="media-body"> <br>
-		
-		<b> Product Details </b> <br>
-            &nbsp; Name : {{name}} <br> <br>
-			&nbsp; Category : {{category}} <br> <br>
-			&nbsp; Price : ${{price}} <br> <br>
-			&nbsp; Description<br> &nbsp; &nbsp; {{this.description}} <br> <br>
-			<br>
-			<b> Seller's Details </b> <br>
-			&nbsp; Name : {{displayName}} <br> <br>
-			&nbsp; Email : {{email}} <br> <br>
-			
-      	  </div>
+				<div class="media-left">
+					<img src="/product_uploads/{{items.photoURL}}" height="160" width="160" alt="">
+				</div>
+				<div class="media-body"> <br>
+					<h3>Product Details
+
+					{{#if product_user}}
+							<button_opt id="options"><button type="editAcc" class="btn btn-default" onclick=edit()>Edit</button></button_opt>
+					{{/if}}
+					</h3>
+					
+					 <table>
+      					<tbody>
+      					      <tr>
+       					         <td>
+       					             <p>Name : 	</p>
+        				        </td>
+        				       	 <td>
+           					         <p id="editing1">{{items.name}}</p>
+           					     </td>
+           						</tr>
+								 <tr>
+       					         <td>
+       					             <p>Category : 	</p>
+        				        </td>
+        				       	 <td>
+           					         <p id="editing2">{{items.category}}</p>
+           					     </td>
+           						</tr>
+								 <tr>
+       					         <td>
+       					             <p>Price : 	</p>
+        				        </td>
+        				       	 <td>
+           					         <p id="editing3">{{items.price}}</p>
+           					     </td>
+           						</tr>
+								           						</tr>
+								 <tr>
+       					         <td width=200>
+       					             <p>Description : 	</p>
+        				        </td>
+        				       	 <td>
+           					        <p id="editing4">{{items.description}}</p>
+           					     </td>
+           						</tr>
+						</tbody>
+				    </table>
+					
+					
+					<h3> Seller's Details </h3> <br>
+					&nbsp; Name : {{items.displayName}} <br> <br>
+					&nbsp; Email : {{items.email}} <br> <br>
+				</div>
+			</div>
 		</div>
-		</div>
-		</div>
-		{{else}}
-  <p>Found no search results. Please try a different search.</p>
-{{/each}}
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
