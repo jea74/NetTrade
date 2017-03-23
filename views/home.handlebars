@@ -1,7 +1,3 @@
-<!-- <div class="jumbotron" style="text-align:center">
-  <h1 class="animated rubberBand" style="color: #f35626">NetTrade</h1>
-  <p class="animated lightSpeedIn">The best place to list items!!!</p>
-</div> -->
 <div class="row">
   <div class="col-sm-12 col-lg-12">
     <h1>Clothing</h1>
@@ -33,6 +29,32 @@
     <hr>
     <div class="clothing">
       {{#each results_electronics}}
+      <a href="/product/{{this.itemID}}">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">{{this.name}}</h4>
+          </div>
+          <div class="panel-body" stlye="padding:0px;">
+            <img src="/product_uploads/{{this.photoURL}}" class="block-center" height="150px" width="150px">
+          </div>
+          <div class="panel-footer">
+            <button class="btn btn-default">
+              ${{this.price}}
+            </button>
+          </div>
+        </div>
+      </a>
+      {{/each}}
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12 col-lg-12">
+    <h1>Others</h1>
+    <hr>
+    <div class="clothing">
+      {{#each results_others}}
       <a href="/product/{{this.itemID}}">
         <div class="panel panel-default">
           <div class="panel-heading">

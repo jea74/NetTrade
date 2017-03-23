@@ -17,7 +17,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'root',
+	password: 'Root1!',
 	database: 'netTrade'
 });
 
@@ -180,7 +180,18 @@ app.get('/', function(req, res) {
 						res.status(500).send('Something broke!')
 					}
 					else {
-						res.render('home', {user: req.user, results_clothes : rows1, results_electronics : rows2, ishomepage:true});
+						
+							var sql = 'SELECT name, itemtable.photoURL, price, itemID FROM itemTable WHERE category <> \'Electronics\' && category <> \'Clothes\';';
+			con.query(sql,function(err,rows3,fields){
+
+					if(err) {
+						console.log(err);
+						res.status(500).send('Something broke!')
+					}
+					else {
+						res.render('home', {user: req.user, results_clothes : rows1, results_electronics : rows2, results_others : rows3, ishomepage:true});
+					}
+			});
 					}
 			});
 		}
